@@ -18,7 +18,7 @@ var UserSchema = new Schema({
     userid: { type: String },
     email: { type: String, required: true },
     password: { type: String, required: true },
-
+    contact:{type: String},
     address1: { type: String, required: true },
     address2: { type: String },
     city: { type: String, required: true },
@@ -35,7 +35,8 @@ const User = mongoose.model('User', UserSchema)
 var myObj = {
 
     success: true,
-    error: ""
+    error: "",
+    userid: ""
 };
 const addData = function (req, res) {
 
@@ -61,6 +62,7 @@ const addData = function (req, res) {
                             myObj.success = false;
                             myObj.error = "This Phone Number is already registered. Please try some other Phone Number";
                             res.send(myObj);
+                            console.log(user1);
 
 
                         }
@@ -73,6 +75,7 @@ const addData = function (req, res) {
                                     // console.log(doc);  
                                     console.log("User Created");
                                     myObj.success = true;
+                                    myObj.userid = newUser.userid;
                                     res.send(myObj);
                                 }
                             });
@@ -95,17 +98,20 @@ const addData = function (req, res) {
 
 }
 
-const verify = function (email, code) {
+const verify = function (email, code, res) {
+    
     User.findOne({ email: email }, function (err, user) {
         if (err) throw err;
         else {
             if (user.verificationcode == code) {
-                res.send.json({
+                res.send({
                     success: true
                 });
+                user.isVerified = true;
+                user.save();
             }
             else {
-                res.send.json({ 
+                res.send({ 
                     success: false
                  });
             }

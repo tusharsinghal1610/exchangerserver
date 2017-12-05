@@ -12,7 +12,7 @@ var port = 8080;
 
 
 
-app.post('/signup', (req, res) => {
+app.post('/', (req, res) => {
     User.addData(req, res);
     //res.send(User.myObj);
     console.log(User.myObj);
@@ -20,7 +20,7 @@ app.post('/signup', (req, res) => {
 
 );
 app.post('/verify', (req,res)=>{
-    User.verify(req.body.email, req.body.verificationcode);
+    User.verify(req.body.email, req.body.verificationcode, res);
     
 
 }
@@ -28,4 +28,3 @@ app.post('/verify', (req,res)=>{
 
 
 module.exports = app;
-

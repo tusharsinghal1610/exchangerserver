@@ -9,7 +9,7 @@ app.use(BodyParser.urlencoded({ extended: true }));
 app.use(BodyParser.json());
 var port = 8080;
 
-app.use('/', SignupApi);
+app.use('/signup', SignupApi);
 
 var uri = 'mongodb://keshav:keshav@ds119355.mlab.com:19355/exchanger';
 mongoose.connect(uri, function (err) {
@@ -20,6 +20,5 @@ console.log('hi');
 app.listen(port, () => {
     console.log("Server listening on port " + port);
 });
-
 
 
