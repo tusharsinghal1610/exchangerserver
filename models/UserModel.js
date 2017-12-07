@@ -8,13 +8,13 @@ var nodemailer = require('nodemailer');
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'singhsudhanshu204@gmail.com',
-      pass: 'iwillneverforgetyou'
+      user: 'exchangerapp123@gmail.com',
+      pass: 'sudhanshu123'
     }
   });
 
 var mailOptions = {
-    from: 'singhsudhanshu204@gmail.com',
+    from: 'exchangerapp123@gmail.com',
     to: '',
     subject: 'Verification Code',
     text: 'Your code is'
