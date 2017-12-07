@@ -9,7 +9,9 @@ app.use(BodyParser.json());
 User = require('../models/UserModel.js');
 var port = 8080;
 
-app.listen('/', (req, res)=>{
-    User.Login(req.email, req.password);
+app.post('/', (req, res)=>{
+    User.Login(req.body.email, req.body.password);
 
 });
+
+module.exports = app;
