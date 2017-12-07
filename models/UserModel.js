@@ -4,6 +4,21 @@ var cors = require('cors');
 mongoose.Promise = global.Promise;
 var BodyParser = require('body-parser');
 app.use(cors());
+var nodemailer = require('nodemailer');
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'singhsudhanshu204@gmail.com',
+      pass: 'iwillneverforgetyou'
+    }
+  });
+
+var mailOptions = {
+    from: 'singhsudhanshu204@gmail.com',
+    to: '',
+    subject: 'Verification Code',
+    text: 'Your code is'
+  };
 app.use(BodyParser.urlencoded({ extended: true }));
 app.use(BodyParser.json());
 var port = 8080;
@@ -67,19 +82,35 @@ const addData = function (req, res) {
 
                         }
                         else {
-                            newUser = new User(req.body);
-                            newUser.userid = User.count() + 1;
-                            newUser.save(function (err, doc) {
-                                if (err) throw err;
-                                else {
-                                    // console.log(doc);  
-                                    console.log("User Created");
-                                    myObj.success = true;
-                                    myObj.userid = newUser.userid;
-                                    res.send(myObj);
-                                }
-                            });
+                           
+                             User.count(function(err, c){
+                                newUser = new User(req.body);
+                                 newUser.userid = c + 1;
+                                 console.log(newUser.userid)
+                                 newUser.save(function (err, doc) {
+                                    if (err) throw err;
+                                    else {
+                                        // console.log(doc);  
+                                        console.log("User Created");
+                                        myObj.success = true;
+                                        myObj.userid = newUser.userid;
+                                        mailOptions.to = newUser.email;
+                                        mailOptions.text = mailOptions.text + " " + newUser.verificationcode;
+                                        transporter.sendMail(mailOptions, function(error, info){
+                                            if (error) {
+                                              console.log(error);
+                                            } else {
+                                              console.log('Email sent: ' + info.response);
+                                            }
+                                          });
+                                        res.send(myObj);
+                                    }
+                                });
+    
+                            }) ;
 
+                           
+                           
 
                             //
 
@@ -120,8 +151,26 @@ const verify = function (email, code, res) {
 
 }
 
+const Login = function(email, password){
+    currentUser = User.findOne({email:email, password:password}, function(err, user){
+        if(err) throw err;
+        else{
+            if(user==null)
+            {
+                res.send({success:false});
+            }
+            if(user!=null)
+            {
+                res.send({success:true});
+            }
+
+        }
+    })
+}
+
 module.exports = {
     User: User,
     addData: addData,
-    verify: verify
+    verify: verify,
+    Login: Login
 }
