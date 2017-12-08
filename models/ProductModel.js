@@ -91,9 +91,35 @@ const getproductid = function(req, res){
         }
     })
 }
+const filterProductByCategory = function(req, res){
+    Product.find({category:req.query.category}, function(err, products){
+        productList = [];
+        if(products.length==0)
+        {
+            res.send({empty:true})
+        }
+        else{
+            for (product in products)
+            {
+                var details = {
+                    img1:product.img1,
+                    type: product.type,
+                    productName: product.productName,
+                    price: product.price,
+                    rent: product.rent
+                }
+                productList.append(details);
+
+            }
+            res.send({productList:productList, empty:false})
+        }
+    })
+}
 module.exports = {
     ProductModel:Product,
     addPicture:addPicture,
     getproductid:getproductid,
-    uploadData: uploadData
+    uploadData: uploadData, 
+    filterProductByCategory: filterProductByCategory
+
 }
