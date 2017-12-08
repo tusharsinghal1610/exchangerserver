@@ -4,10 +4,9 @@ var cors = require('cors');
 mongoose.Promise = global.Promise;
 var BodyParser = require('body-parser');
 app.use(cors());
-var formidable = require('formidable');
 var fs = require('fs');
 
-var Schema = mongoose.schema;
+var Schema = mongoose.Schema;
 ProductSchema = new Schema({
     product: {type:String},
     userid:{type:String},
@@ -24,7 +23,7 @@ ProductSchema = new Schema({
     img3:{type:String},
     img4:{type:String}
 }); 
-const Product = mongoose.model('User', ProductSchema)
+const Product = mongoose.model('Product', ProductSchema)
 
 
 const addPicture=function(currentFile,fileName,callback){
@@ -44,7 +43,7 @@ const getproductid = function(req, res){
         }
     })
 }
-module.export = {
+module.exports = {
     addPicture:addPicture,
     getproductid:getproductid
 }
