@@ -93,25 +93,29 @@ const getproductid = function(req, res){
 }
 const filterProductByCategory = function(req, res){
     Product.find({category:req.query.category}, function(err, products){
+        console.log(req.query.category);
+      
         productList = [];
         if(products.length==0)
         {
             res.send({empty:true})
         }
         else{
-            for (product in products)
-            {
+            for (var i=0;i<products.length;i++)
+            {   console.log(products[i]);
                 var details = {
-                    img1:product.img1,
-                    type: product.type,
-                    productName: product.productName,
-                    price: product.price,
-                    rent: product.rent
+                    img1:products[i].img1,
+                    type: products[i].type,
+                    productName: products[i].productName,
+                    price: products[i].price,
+                    rent: products[i].rent,
+                    productId:products[i].productId
                 }
-                productList.append(details);
-
+                productList.push(details);
+            
             }
-            res.send({productList:productList, empty:false})
+            res.send({productList:productList, empty:false});
+           
         }
     })
 }

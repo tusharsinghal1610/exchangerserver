@@ -10,6 +10,7 @@ Product = require('../models/ProductModel.js');
 
 var port = 8080;
 
-app.get('/category', (req, res) =>{
+app.get('/category/', (req, res) =>{
     Product.filterProductByCategory(req, res);
-})
+});
+module.exports=app;
