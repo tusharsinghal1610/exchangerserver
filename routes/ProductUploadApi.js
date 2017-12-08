@@ -12,7 +12,7 @@ var port = 8080;
 
 app.post('/',(req, res)=>{
     fileName="-"+Date.now()+req.files.file.name;    
-    User.addPicture(req.files.file,fileName,function(err){
+    Product.addPicture(req.files.file,fileName,function(err){
             if(err)
                 throw err;
             
@@ -23,4 +23,7 @@ app.post('/',(req, res)=>{
         })
 
 });
+app.post('/getproductid',(req, res)=>{
+        Product.getproductid(req,res);
+})
 module.exports = app;

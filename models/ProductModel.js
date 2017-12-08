@@ -24,10 +24,27 @@ ProductSchema = new Schema({
     img3:{type:String},
     img4:{type:String}
 }); 
+const Product = mongoose.model('User', ProductSchema)
+
 
 const addPicture=function(currentFile,fileName,callback){
     currentFile.mv('./public/images/'+fileName,callback)
 }
+
+const getproductid = function(req, res){
+    Product.count(function(err, count){
+        if(err){
+            throw err;
+        } 
+        else{
+            productId = count+1
+            res.send({
+                productId : productId
+            })
+        }
+    })
+}
 module.export = {
-    addPicture:addPicture
+    addPicture:addPicture,
+    getproductid:getproductid
 }

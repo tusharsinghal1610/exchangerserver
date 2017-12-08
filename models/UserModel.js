@@ -151,7 +151,7 @@ const verify = function (email, code, res) {
 
 }
 
-const Login = function(email, password){
+const Login = function(email, password, res){
     currentUser = User.findOne({email:email, password:password}, function(err, user){
         if(err) throw err;
         else{
