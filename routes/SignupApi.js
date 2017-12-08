@@ -6,7 +6,7 @@ var BodyParser = require('body-parser');
 app.use(cors());
 app.use(BodyParser.urlencoded({ extended: true }));
 app.use(BodyParser.json());
-User = require('../models/UserModel.js');
+User = require('../models/UserModel');
 var port = 8080;
 
 
@@ -14,8 +14,6 @@ var port = 8080;
 
 app.post('/', (req, res) => {
     User.addData(req, res);
-    //res.send(User.myObj);
-    console.log(User.myObj);
 }
 
 );

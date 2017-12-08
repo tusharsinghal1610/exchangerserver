@@ -6,17 +6,18 @@ var BodyParser = require('body-parser');
 app.use(cors());
 app.use(BodyParser.urlencoded({ extended: true }));
 app.use(BodyParser.json());
-Product = require('../models/ProductModel.js');
+ProductApi = require('../models/ProductModel.js');
+
 var port = 8080;
 
 
 app.post('/',(req, res)=>{
     fileName="-"+Date.now()+req.files.file.name;    
-    Product.addPicture(req.files.file,fileName,function(err){
+    ProductApi.addPicture(req,req.files.file,fileName,function(err){
             if(err)
                 throw err;
-            
-            res.json({
+
+                res.json({
                 success:true,
                 message:fileName
             })
@@ -24,6 +25,9 @@ app.post('/',(req, res)=>{
 
 });
 app.post('/getproductid',(req, res)=>{
-        Product.getproductid(req,res);
+        ProductApi.getproductid(req,res);
+})
+app.post("/data", (req,res)=>{
+    ProductApi.uploadData(req,res);
 })
 module.exports = app;

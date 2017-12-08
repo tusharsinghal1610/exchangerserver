@@ -112,7 +112,7 @@ const addData = function (req, res) {
                            
                            
 
-                            //
+                        
 
                         }
 
@@ -161,7 +161,7 @@ const Login = function(email, password, res){
             }
             if(user!=null)
             {
-                res.send({success:true});
+                res.send({success:true, userid:user.userid, firstname : user.firstname});
             }
 
         }
@@ -169,7 +169,7 @@ const Login = function(email, password, res){
 }
 
 module.exports = {
-    User: User,
+    UserModel: User,
     addData: addData,
     verify: verify,
     Login: Login
