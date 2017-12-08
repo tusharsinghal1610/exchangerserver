@@ -10,7 +10,7 @@ User = require('../models/UserModel.js');
 var port = 8080;
 
 app.post('/', (req, res)=>{
-    User.Login(req.body.email, req.body.password);
+    User.Login(req.body.email, req.body.password, res);
 
 });
 

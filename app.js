@@ -1,17 +1,23 @@
 var mongoose = require('mongoose');
+const fileupload=require('express-fileupload');
 var app = require('express')();
+var express = require('express');
 var cors = require('cors');
 mongoose.Promise = global.Promise;
 var BodyParser = require('body-parser');
 app.use(cors());
 var SignupApi = require('./routes/SignupApi.js')
 var LoginApi = require('./routes/LoginApi.js')
+var ProductApi = require('./routes/ProductUploadApi.js')
 app.use(BodyParser.urlencoded({ extended: true }));
 app.use(BodyParser.json());
+app.use(fileupload());
 var port = 8080;
 
 app.use('/signup', SignupApi);
-app.use('/login', LoginApi)
+app.use('/login', LoginApi);
+app.use('/upload',ProductApi);
+app.use(express.static('public'));
 var uri = 'mongodb://keshav:keshav@ds119355.mlab.com:19355/exchanger';
 mongoose.connect(uri, function (err) {
     if (err) { throw err; }
