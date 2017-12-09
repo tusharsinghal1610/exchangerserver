@@ -12,7 +12,7 @@ var transporter = nodemailer.createTransport({
       pass: 'sudhanshu123'
     }
   });
-
+Cart = require('../models/CartModel.js');
 var mailOptions = {
     from: 'exchangerapp123@gmail.com',
     to: '',
@@ -161,7 +161,15 @@ const Login = function(email, password, res){
             }
             if(user!=null)
             {
-                res.send({success:true, userid:user.userid, firstname : user.firstname});
+
+                Cart.CartModel.findOne({userId:user.userid}, function(err, cart){
+                    products = cart.productDetails;
+                    array=[]
+                    for(var i = 0;i<products.length;i++){
+                        array.push(products[i].productId);
+                    }
+                })
+                res.send({success:true, userid:user.userid, firstname : user.firstname, products:array});
             }
 
         }

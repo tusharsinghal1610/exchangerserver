@@ -12,7 +12,7 @@ var productDetail = {
     productId: { type: String },
     price: { type: Number },
     rent: { type: Number },
-    choice: { type: String, default: "buy" },
+    choice: { type: Number, default: 1 },
     productName: { type: String }
 }
 CartSchema = new Schema({
@@ -63,10 +63,10 @@ const getCart = function (req, res) {
             var products = cart.productDetails;
             var sum = 0
             for (var i = 0; i < products.length; i++) {
-                if (products[i].choice == 'rent') {
+                if (products[i].choice == 2) {
                     sum = sum + products[i].rent;
                 }
-                if (products[i].choice == 'buy') {
+                if (products[i].choice == 1) {
                     sum = sum + products[i].price;
                 }
             }
