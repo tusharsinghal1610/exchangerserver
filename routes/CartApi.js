@@ -16,4 +16,7 @@ app.get('/', (req, res) =>{
 app.get('/getcart/',(req,res)=>{
     Cart.getCart(req, res);
 });
+app.get('/delete/',(req,res)=>{
+    Cart.deleteFromCart(req, res);
+});
 module.exports = app;
