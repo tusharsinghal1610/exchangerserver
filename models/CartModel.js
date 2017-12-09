@@ -12,7 +12,7 @@ var productDetail={
     productId:{type:String},
     price:{type:Number},
     rent:{type:Number},
-    choice:{type:String},
+    choice:{type:String,default: "buy"},
     productName:{type:String}
 }
 CartSchema = new Schema({
@@ -58,7 +58,39 @@ const addToCart = function(req, res){
                      })
                  }
 
-module.exports = {
-    CartModel:Cart,
-    addToCart:addToCart
-}
+                 const getCart = function(req, res){
+                    Cart.findOne({userId:req.query.userId}, function(err, cart){
+                        
+                        if(cart!=null){
+                        var products = cart.productDetails;
+                        var sum = 0
+                        for(var i = 0;i<products.length;i++)
+                        {
+                            if(products[i].choice=='rent')
+                            {
+                                sum = sum+products[i].rent;
+                            }
+                            if(products[i].choice=='buy'){
+                                sum= sum+products[i].price;
+                            }
+                        }
+                        res.send({
+                            productDetails:cart.productDetails,
+                            totalPrice: sum,
+                            empty: false
+                        })
+                    }
+                    else{
+                        res.send({
+                            empty:true
+                        })
+                    }
+                        
+                        
+                    })
+                }
+                module.exports = {
+                    CartModel:Cart,
+                    addToCart:addToCart, 
+                    getCart:getCart
+                }

@@ -13,4 +13,7 @@ var port = 8080;
 app.get('/', (req, res) =>{
     Cart.addToCart(req, res);
 });
+app.get('/getcart/',(req,res)=>{
+    Cart.getCart(req, res);
+});
 module.exports = app;
