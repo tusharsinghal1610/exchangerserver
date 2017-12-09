@@ -13,7 +13,7 @@ var port = 8080;
 
 app.post('/',(req, res)=>{
     fileName="-"+Date.now()+req.files.file.name;    
-    Product.addPicture(req.files.file,fileName,function(err){
+    Product.addPicture(req,req.files.file,fileName,function(err){
             if(err)
                 throw err;
 
