@@ -29,7 +29,7 @@ ProductSchema = new Schema({
     count: {type:Number, default:0}
 }); 
 const Product = mongoose.model('Product', ProductSchema)
-
+var productArray=[]
 
 const addPicture=function(req,currentFile,fileName,callback){
     currentFile.mv('./public/images/'+fileName,callback)
@@ -128,6 +128,7 @@ module.exports = {
     addPicture:addPicture,
     getproductid:getproductid,
     uploadData: uploadData, 
-    filterProductByCategory: filterProductByCategory
+    filterProductByCategory: filterProductByCategory,
+    productArray: productArray,
 
 }
