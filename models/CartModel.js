@@ -137,15 +137,15 @@ const updateChoice = function (req, res) {
     })
 }
 const getCartId = function(req, res){
-    Cart.CartModel.findOne({userId:user.userid}, function(err, cart){
+    Cart.findOne({userId:req.query.userId}, function(err, cart){
         products = cart.productDetails;
-        array=[]
+        var array=[]
         for(var i = 0;i<products.length;i++){
             array.push(products[i].productId);
             
         }
-        //console.log("the array is"+array);
-        res.send({success:true, userid:user.userid, firstname : user.firstname, products:array});
+        console.log("the array is"+array);
+        res.send({products:array});
     })
 }
 module.exports = {

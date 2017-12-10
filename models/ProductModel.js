@@ -76,9 +76,12 @@ const uploadData = function(req, res){
                     productId: req.body.productId,
                     price: req.body.price,
                     rent: req.body.rent,
-                    productName: req.body.productName,                    
+                    productName: req.body.productName, 
+                    type: req.body.type,
+                    img1: current_product.img1,
+                    category: req.body.category                   
                 }
-               
+                
                 products.push(product);
                 user.myProducts = products;
                 user.save();
@@ -107,7 +110,7 @@ const getproductid = function(req, res){
 }
 const filterProductByCategory = function(req, res){
     Product.find({category:req.query.category}, function(err, products){
-        console.log(req.query.category);
+       
       
         productList = [];
         if(products.length==0)
@@ -116,7 +119,7 @@ const filterProductByCategory = function(req, res){
         }
         else{
             for (var i=0;i<products.length;i++)
-            {   console.log(products[i]);
+            {  
                 var details = {
                     img1:products[i].img1,
                     type: products[i].type,

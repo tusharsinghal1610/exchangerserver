@@ -9,6 +9,6 @@ app.use(BodyParser.json());
 User = require('../models/UserModel.js');
 
 app.get('/myProducts/',(req,res)=>{
-    User.myProducts(req,res);
+    User.getMyProducts(req,res);
 })
 module.exports = app;

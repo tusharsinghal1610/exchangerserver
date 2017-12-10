@@ -30,8 +30,10 @@ var productObj = {
     productId: { type: String },
     price: { type: Number },
     rent: { type: Number },
-    choice: { type: Number },
-    productName: { type: String }
+    category: { type: String },
+    productName: { type: String },
+    type: { type: String },
+    img1: {type: String}
 }
 var UserSchema = new Schema({
 
@@ -192,8 +194,10 @@ const getMyProducts = function(req, res){
         if(err) throw err
         else
         {
+
         res.send({
             myProducts:user.myProducts
+            
         });
     
 }
@@ -205,4 +209,5 @@ module.exports = {
     verify: verify,
     Login: Login,
     getMyProducts:getMyProducts
+    
 }
