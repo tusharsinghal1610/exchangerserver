@@ -38,10 +38,11 @@ const addToCart = function (req, res) {
             product.choice = 1;
 
         }
-        if(req.query.rent!=null)
+        else
         {   if(req.query.price!=null)
             product.choice = 1;
-            else product.choice = 2;
+            else
+                 product.choice = 2;
         }
         if (current_cart == null) {
             var array = []
@@ -105,20 +106,40 @@ const deleteFromCart = function(req, res){
             {
                 if(products[i].productId == req.query.productId)
                 {
-                    delete products[i];
+                    products.splice(i,1);
                    
                 }
             }
-            res({success:true});
+            cart.count-=1;
+            res.send({success:true});
             cart.productDetails = products;
             cart.save(function(err){if(err) throw err;});
         }
     })
 }
+const updateChoice = function (req, res) {
+    Cart.findone({ userId: req.query.userId }, function (err, cart) {
+        if (err) throw err;
+        else {
+            products = cart.productDetails;
+            for (var i = 0; i < products.length(); i++) {
+                if (products[i].productId == req.query.productId) {
+                    products[i].choice = req.query.choice;
+                    break;
+                }
+            }
+            cart.productDetails = products;
+            cart.save();
+            res.send
+
+        }
+
+    })}
 
 module.exports = {
     CartModel: Cart,
     addToCart: addToCart,
     getCart: getCart,
+    updateChoice:updateChoice,
     deleteFromCart: deleteFromCart
 }

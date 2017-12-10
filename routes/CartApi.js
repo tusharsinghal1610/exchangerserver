@@ -19,4 +19,7 @@ app.get('/getcart/',(req,res)=>{
 app.get('/delete/',(req,res)=>{
     Cart.deleteFromCart(req, res);
 });
+app.get('/updateChoice/',(req,res)=>{
+    Cart.updateChoice(req,res);
+})
 module.exports = app;
