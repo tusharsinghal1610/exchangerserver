@@ -116,7 +116,7 @@ const deleteFromCart = function(req, res){
         }
     })
 }
-const updatechoice = function (req, res) {
+const updateChoice = function (req, res) {
     Cart.findOne({ userId: req.query.userId }, function (err, cart) {
         if (err) throw err;
         else {

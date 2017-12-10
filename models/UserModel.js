@@ -176,9 +176,12 @@ const Login = function(email, password, res){
                     array=[]
                     for(var i = 0;i<products.length;i++){
                         array.push(products[i].productId);
+                        
                     }
+                    console.log("the array is"+array);
+                    res.send({success:true, userid:user.userid, firstname : user.firstname, products:array});
                 })
-                res.send({success:true, userid:user.userid, firstname : user.firstname, products:array});
+               
             }
 
         }

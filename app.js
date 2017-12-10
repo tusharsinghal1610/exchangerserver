@@ -11,6 +11,7 @@ var LoginApi = require('./routes/LoginApi.js')
 var ProductApi = require('./routes/ProductUploadApi.js')
 var FetchApi = require('./routes/FetchProductApi.js')
 var CartApi = require('./routes/CartApi.js')
+var UserApi = require('./routes/UserApi.js')
 app.use(BodyParser.urlencoded({ extended: true }));
 app.use(BodyParser.json());
 app.use(fileupload());
@@ -22,7 +23,7 @@ app.use('/upload',ProductApi);
 app.use(express.static('public'));
 app.use('/fetch', FetchApi);
 app.use('/cart', CartApi)
-app.use('/user', userApi)
+app.use('/user', UserApi)
 var uri = 'mongodb://keshav:keshav@ds119355.mlab.com:19355/exchanger';
 mongoose.connect(uri, function (err) {
     if (err) { throw err; }
