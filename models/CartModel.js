@@ -5,6 +5,7 @@ mongoose.Promise = global.Promise;
 var BodyParser = require('body-parser');
 app.use(cors());
 User = require('../models/UserModel.js');
+Product = require('../models/ProductModel.js');
 var fs = require('fs');
 
 var Schema = mongoose.Schema;
@@ -64,6 +65,13 @@ const addToCart = function (req, res) {
             current_cart.save();
             res.send({ success: true });
         }
+
+        Product.ProductModel.findOne({productId:productId}, function(err, current_product){
+            var array = current_product.carts;
+            array.push(current_cart.userId);
+            current_product.carts = array;
+            current_product.save();
+        })
     })
 }
 
@@ -137,17 +145,18 @@ const updateChoice = function (req, res) {
     })
 }
 const getCartId = function(req, res){
-    Cart.findOne({userId:req.query.userId}, function(err, cart){
+    Cart.CartModel.findOne({userId:user.userid}, function(err, cart){
         products = cart.productDetails;
-        var array=[]
+        array=[]
         for(var i = 0;i<products.length;i++){
             array.push(products[i].productId);
             
         }
-        console.log("the array is"+array);
-        res.send({products:array});
+        //console.log("the array is"+array);
+        res.send({success:true, userid:user.userid, firstname : user.firstname, products:array});
     })
 }
+
 module.exports = {
     CartModel: Cart,
     addToCart: addToCart,

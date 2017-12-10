@@ -30,4 +30,10 @@ app.post('/getproductid',(req, res)=>{
 app.post("/data", (req,res)=>{
     Product.uploadData(req,res);
 })
+app.get('/edit/', (req,res)=>{
+    Product.editProduct(req, res);
+})
+app.get('/remove/',(req, res)=>{
+    Product.removeProduct(req, res);
+})
 module.exports = app;

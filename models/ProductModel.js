@@ -5,6 +5,7 @@ mongoose.Promise = global.Promise;
 var BodyParser = require('body-parser');
 app.use(cors());
 User = require('../models/UserModel.js');
+Cart = require('../models/CartModel.js');
 var fs = require('fs');
 
 var Schema = mongoose.Schema;
@@ -26,7 +27,8 @@ ProductSchema = new Schema({
     img2:{type:String},
     img3:{type:String},
     img4:{type:String},
-    count: {type:Number, default:0}
+    count: {type:Number, default:0},
+    carts:[{type:Number}]
 }); 
 const Product = mongoose.model('Product', ProductSchema);
 
@@ -76,12 +78,9 @@ const uploadData = function(req, res){
                     productId: req.body.productId,
                     price: req.body.price,
                     rent: req.body.rent,
-                    productName: req.body.productName, 
-                    type: req.body.type,
-                    img1: current_product.img1,
-                    category: req.body.category                   
+                    productName: req.body.productName,                    
                 }
-                
+               
                 products.push(product);
                 user.myProducts = products;
                 user.save();
@@ -91,6 +90,7 @@ const uploadData = function(req, res){
         }
     })
 }
+
 const getproductid = function(req, res){
     Product.count(function(err, c){
         if(err){
@@ -110,7 +110,7 @@ const getproductid = function(req, res){
 }
 const filterProductByCategory = function(req, res){
     Product.find({category:req.query.category}, function(err, products){
-       
+        console.log(req.query.category);
       
         productList = [];
         if(products.length==0)
@@ -119,7 +119,7 @@ const filterProductByCategory = function(req, res){
         }
         else{
             for (var i=0;i<products.length;i++)
-            {  
+            {   console.log(products[i]);
                 var details = {
                     img1:products[i].img1,
                     type: products[i].type,
@@ -136,10 +136,42 @@ const filterProductByCategory = function(req, res){
         }
     })
 }
+const editProduct = function(req, res){
+    Product.findOne({productId:req.query.productId, userid:req.query.userId}, function(err, current_product){
+        res.send({product:current_product});
+
+    })
+}
+const removeProduct = function(req, res){
+    Product.remove({productId:req.query.productId, userid:req.query.userId},function(err, current_product){
+        if(err) throw err;
+        else{
+            var carts = current_product.carts;
+            for(var  i = 0;i<carts.length;i++)
+            {
+                Cart.CartModel.findOne({userId : carts[i]}, function(err, current_cart){
+                 var cart_items =current_cart.productDetails;
+                 for(var j=0;j<cart_items.length;j++){
+                     if(cart_items[i].productId==req.query.productId)
+                     {
+                           cart_items[i].choice = 3;
+
+                     }
+                 }
+                 current_cart.save(function(err){if (err) throw err;})
+                })
+            }
+            res.send({success:true})
+
+        }
+    })
+}
 module.exports = {
     ProductModel:Product,
     addPicture:addPicture,
     getproductid:getproductid,
     uploadData: uploadData, 
     filterProductByCategory: filterProductByCategory,
+    editProduct:editProduct,
+    removeProduct:removeProduct
 }
