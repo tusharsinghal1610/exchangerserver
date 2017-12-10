@@ -25,6 +25,14 @@ var port = 8080;
 
 
 var Schema = mongoose.Schema;
+
+var productObj = {
+    productId: { type: String },
+    price: { type: Number },
+    rent: { type: Number },
+    choice: { type: Number },
+    productName: { type: String }
+}
 var UserSchema = new Schema({
 
     firstname: { type: String, required: true },
@@ -42,7 +50,8 @@ var UserSchema = new Schema({
     latitude: { type: String },
     longitude: { type: String },
     isVerified: { type: Boolean, default: false },
-    verificationcode: { type: String }
+    verificationcode: { type: String },
+    myProducts:[productObj]
 
 });
 
@@ -175,10 +184,22 @@ const Login = function(email, password, res){
         }
     })
 }
-
+const getMyProducts = function(req, res){
+    User.findOne({userid:req.query.userId},function(err, user){
+        if(err) throw err
+        else
+        {
+        res.send({
+            myProducts:user.myProducts
+        });
+    
+}
+    });
+}
 module.exports = {
     UserModel: User,
     addData: addData,
     verify: verify,
-    Login: Login
+    Login: Login,
+    getMyProducts:getMyProducts
 }

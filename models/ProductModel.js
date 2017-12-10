@@ -71,6 +71,17 @@ const uploadData = function(req, res){
                 current_product.latitude = user.latitude;
                 current_product.longitude = user.longitude;
                 current_product.save();
+                var products = user.myProducts;
+                var product = {
+                    productId: req.body.productId,
+                    price: req.body.price,
+                    rent: req.body.rent,
+                    productName: req.body.productName,                    
+                }
+               
+                products.push(product);
+                user.myProducts = products;
+                user.save();
                 res.send({success:true});
             });
 

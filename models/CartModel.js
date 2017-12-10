@@ -12,12 +12,11 @@ var productDetail = {
     productId: { type: String },
     price: { type: Number },
     rent: { type: Number },
-    choice: { type: Number, default: 1 },
+    choice: { type: Number },
     productName: { type: String }
 }
 CartSchema = new Schema({
     userId: { type: String },
-
     productDetails: [productDetail],
     count: { type: Number }
 })
@@ -118,11 +117,11 @@ const deleteFromCart = function(req, res){
     })
 }
 const updatechoice = function (req, res) {
-    Cart.findone({ userId: req.query.userId }, function (err, cart) {
+    Cart.findOne({ userId: req.query.userId }, function (err, cart) {
         if (err) throw err;
         else {
             products = cart.productDetails;
-            for (var i = 0; i <= products.length(); i++) {
+            for (var i = 0; i <= products.length; i++) {
                 if (products[i].productId == req.query.productId) {
                     products[i].choice = req.query.choice;
                     break;
