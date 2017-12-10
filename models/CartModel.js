@@ -136,11 +136,23 @@ const updateChoice = function (req, res) {
 
     })
 }
-
+const getCartId = function(req, res){
+    Cart.CartModel.findOne({userId:user.userid}, function(err, cart){
+        products = cart.productDetails;
+        array=[]
+        for(var i = 0;i<products.length;i++){
+            array.push(products[i].productId);
+            
+        }
+        //console.log("the array is"+array);
+        res.send({success:true, userid:user.userid, firstname : user.firstname, products:array});
+    })
+}
 module.exports = {
     CartModel: Cart,
     addToCart: addToCart,
     getCart: getCart,
     deleteFromCart: deleteFromCart,
-    updateChoice:updateChoice
+    updateChoice:updateChoice,
+    getCartId:getCartId
 }

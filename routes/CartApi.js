@@ -22,4 +22,7 @@ app.get('/delete/',(req,res)=>{
 app.get('/updateChoice/',(req,res)=>{
     Cart.updateChoice(req,res);
 })
+app.get("/getCartId/",(req,res)=>{
+    Cart.getCartId(req,res);
+})
 module.exports = app;
