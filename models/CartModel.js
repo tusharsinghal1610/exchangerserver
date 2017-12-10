@@ -117,10 +117,31 @@ const deleteFromCart = function(req, res){
         }
     })
 }
+const updatechoice = function (req, res) {
+    Cart.findone({ userId: req.query.userId }, function (err, cart) {
+        if (err) throw err;
+        else {
+            products = cart.productDetails;
+            for (var i = 0; i <= products.length(); i++) {
+                if (products[i].productId == req.query.productId) {
+                    products[i].choice = req.query.choice;
+                    break;
+
+                }
+            }
+            cart.productDetails = products;
+            cart.save();
+            res.send({ success: true });
+
+        }
+
+    })
+}
 
 module.exports = {
     CartModel: Cart,
     addToCart: addToCart,
     getCart: getCart,
-    deleteFromCart: deleteFromCart
+    deleteFromCart: deleteFromCart,
+    updateChoice:updateChoice
 }
