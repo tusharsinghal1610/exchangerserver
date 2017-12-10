@@ -145,7 +145,7 @@ const updateChoice = function (req, res) {
     })
 }
 const getCartId = function(req, res){
-    Cart.CartModel.findOne({userId:user.userid}, function(err, cart){
+    Cart.findOne({userId:req.query.userId}, function(err, cart){
         products = cart.productDetails;
         array=[]
         for(var i = 0;i<products.length;i++){
@@ -153,7 +153,7 @@ const getCartId = function(req, res){
             
         }
         //console.log("the array is"+array);
-        res.send({success:true, userid:user.userid, firstname : user.firstname, products:array});
+        res.send({ products:array});
     })
 }
 

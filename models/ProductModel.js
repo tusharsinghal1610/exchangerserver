@@ -78,7 +78,10 @@ const uploadData = function(req, res){
                     productId: req.body.productId,
                     price: req.body.price,
                     rent: req.body.rent,
-                    productName: req.body.productName,                    
+                    productName: req.body.productName,
+                    img1: current_product.img1,
+                    type:req.body.type,
+                    category: req.body.type                    
                 }
                
                 products.push(product);
@@ -110,7 +113,7 @@ const getproductid = function(req, res){
 }
 const filterProductByCategory = function(req, res){
     Product.find({category:req.query.category}, function(err, products){
-        console.log(req.query.category);
+       
       
         productList = [];
         if(products.length==0)
@@ -119,7 +122,7 @@ const filterProductByCategory = function(req, res){
         }
         else{
             for (var i=0;i<products.length;i++)
-            {   console.log(products[i]);
+            {   
                 var details = {
                     img1:products[i].img1,
                     type: products[i].type,
@@ -138,7 +141,7 @@ const filterProductByCategory = function(req, res){
 }
 const editProduct = function(req, res){
     Product.findOne({productId:req.query.productId, userid:req.query.userId}, function(err, current_product){
-        res.send({product:current_product});
+        res.send({product:current_product,success:true});
 
     })
 }
@@ -147,7 +150,23 @@ const removeProduct = function(req, res){
         if(err) throw err;
         else{
             var carts = current_product.carts;
-            for(var  i = 0;i<carts.length;i++)
+            User.UserModel.findOne({userid:current_product.userid},function(err,user){
+               var array = user.myProducts;
+               console.log("sudhhhhhhhhhhhhh"+user.myProducts);
+               for(var i=0;i<array.length;i++){
+                   if(array[i].productId==req.query.productId){
+                       array.splice(i, 1);
+                       break;
+                   }
+               }
+               //console.log(user.myProducts);
+            user.myProducts = array;
+             user.save()
+                
+            })
+            if(carts!=undefined)
+                {
+            for(var i = 0;i<carts.length;i++)
             {
                 Cart.CartModel.findOne({userId : carts[i]}, function(err, current_cart){
                  var cart_items =current_cart.productDetails;
@@ -161,6 +180,7 @@ const removeProduct = function(req, res){
                  current_cart.save(function(err){if (err) throw err;})
                 })
             }
+        }
             res.send({success:true})
 
         }

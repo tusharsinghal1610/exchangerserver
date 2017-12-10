@@ -194,6 +194,7 @@ const getMyProducts = function(req, res){
         if(err) throw err
         else
         {
+            console.log(user.myProducts);
 
         res.send({
             myProducts:user.myProducts
