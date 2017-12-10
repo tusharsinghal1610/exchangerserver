@@ -13,6 +13,8 @@ ProductSchema = new Schema({
     userid:{type:String},
     productId:{type:String},
     //name:{type:String},
+    keywords:{type:String},
+    email:{type:String},
     type:{type:String},
     category:{type:String},
     description:{type:String},
@@ -27,7 +29,7 @@ ProductSchema = new Schema({
     count: {type:Number, default:0}
 }); 
 const Product = mongoose.model('Product', ProductSchema)
-
+var productArray=[]
 
 const addPicture=function(req,currentFile,fileName,callback){
     currentFile.mv('./public/images/'+fileName,callback)
@@ -64,11 +66,20 @@ const uploadData = function(req, res){
             current_product.price = req.body.price;
             current_product.description = req.body.description;
             current_product.category = req.body.category;
+            current_product.email = req.body.email;
+            current_product.keywords = req.body.keywords;
             User.UserModel.findOne({userid : req.body.userid}, function(err, user){
                 current_product.latitude = user.latitude;
                 current_product.longitude = user.longitude;
                 current_product.save();
-                res.send({success:true})
+                res.send({success:true});
+                var obj = {
+                    productName:current_product.productName,
+                    email: current_product.email,
+                    keywords: current_product.keywords,
+                    price: current_product.price     
+                }
+             productArray.push(obj);
             });
 
         }
@@ -124,6 +135,7 @@ module.exports = {
     addPicture:addPicture,
     getproductid:getproductid,
     uploadData: uploadData, 
-    filterProductByCategory: filterProductByCategory
+    filterProductByCategory: filterProductByCategory,
+    productArray: productArray,
 
 }

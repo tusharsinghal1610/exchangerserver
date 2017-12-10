@@ -30,7 +30,18 @@ const addToCart = function (req, res) {
             productId: req.query.productId,
             price: req.query.price,
             rent: req.query.rent,
-            productName: req.query.productName
+            productName: req.query.productName,
+            choice: ""
+        }
+        if(req.query.rent==null)
+        {
+            product.choice = 1;
+
+        }
+        if(req.query.rent!=null)
+        {   if(req.query.price!=null)
+            product.choice = 1;
+            else product.choice = 2;
         }
         if (current_cart == null) {
             var array = []
@@ -99,6 +110,7 @@ const deleteFromCart = function(req, res){
                 }
             }
             res({success:true});
+            cart.productDetails = products;
             cart.save(function(err){if(err) throw err;});
         }
     })
