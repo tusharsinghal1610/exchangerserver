@@ -130,7 +130,7 @@ const updateChoice = function (req, res) {
             }
             cart.productDetails = products;
             cart.save();
-            res.send
+            res.send({success:true})
 
         }
 
