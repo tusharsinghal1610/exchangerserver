@@ -19,7 +19,7 @@ var port = 8080;
 
 app.use('/signup', SignupApi);
 app.use('/login', LoginApi);
-app.use('/upload',ProductApi);
+app.use('/product',ProductApi);
 app.use(express.static('public'));
 app.use('/fetch', FetchApi);
 app.use('/cart', CartApi)

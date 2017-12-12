@@ -11,7 +11,7 @@ Product = require('../models/ProductModel.js');
 var port = 8080;
 
 
-app.post('/',(req, res)=>{
+app.post('/upload',(req, res)=>{
     fileName="-"+Date.now()+req.files.file.name;    
     Product.addPicture(req,req.files.file,fileName,function(err){
             if(err)
