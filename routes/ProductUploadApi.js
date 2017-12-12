@@ -36,4 +36,10 @@ app.get('/edit/', (req,res)=>{
 app.get('/remove/',(req, res)=>{
     Product.removeProduct(req, res);
 })
+app.get('/description/',(req,res)=>{
+    Product.productDescription(req,res);
+});
+app.get('/buyNow/',(req, res)=>{
+    Product.buyNowDetails(req,res);
+})
 module.exports = app;

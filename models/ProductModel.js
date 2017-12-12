@@ -190,6 +190,38 @@ const removeProduct = function(req, res){
         }
     })
 }
+const productDescription = function(req, res){
+    Product.findOne({productId:req.query.productId}, function(err,current_product){
+        if(current_product==null){
+            res.send({empty:true});
+        }
+        else{
+            res.send({empty:false,product:current_product
+            });
+        }
+    })
+}
+const buyNowDetails = function(req, res){
+    Product.findOne({productId:req.query.productId}, function(err,current_product){
+        if(current_product==null){
+            res.send({empty:true});
+        }
+        else{
+            res.send({empty:false,
+                      productName:current_product.productName,
+                      img1:current_product.img1,
+                      type:current_product.type,
+                      category: current_product.category,
+                      rent: current_product.rent,
+                      price:current_product.price,
+                      description:current_product.description
+
+            });
+        }
+    })
+}
+
+
 module.exports = {
     ProductModel:Product,
     addPicture:addPicture,
@@ -197,5 +229,7 @@ module.exports = {
     uploadData: uploadData, 
     filterProductByCategory: filterProductByCategory,
     editProduct:editProduct,
-    removeProduct:removeProduct
+    removeProduct:removeProduct,
+    productDescription:productDescription,
+    buyNowDetails:buyNowDetails,
 }
