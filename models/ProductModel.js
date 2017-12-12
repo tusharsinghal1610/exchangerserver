@@ -89,6 +89,28 @@ const uploadData = function(req, res){
                 user.save();
                 res.send({success:true});
             });
+            var searchArray = {
+                productName:req.bodyproductName,
+                type:req.body.type,
+                category: req.body.type  ,
+                keywords: req.body.keywords
+
+            }
+            var file_path = 'searchArray.js';
+            var newText = str(','+ searchArray);
+            fs.readFile(file_path, function read(err, data) {
+                if (err) {
+                    throw err;
+                }
+                var file_content = data.toString();
+                var position = file_content.length-23;
+                file_content = file_content.substring(position);
+                var file = fs.openSync(file_path,'r+');
+                var bufferedText = new Buffer(new_text+file_content);
+                fs.writeSync(file, bufferedText, 0, bufferedText.length, position);
+                fs.close(file);
+            });
+            res.send({success:true})
 
         }
     })
