@@ -94,15 +94,18 @@ const addData = function (req, res) {
                         }
                         else {
                            
-                             User.count(function(err, c){
+                             
                                 newUser = new User(req.body);
-                                 newUser.userid = c + 1;
-                                 console.log(newUser.userid)
+                               
+                                 
                                  newUser.save(function (err, doc) {
                                     if (err) throw err;
                                     else {
-                                        // console.log(doc);  
+                                        //console.log(doc);  
                                         console.log("User Created");
+                                        newUser.userid = doc._id;
+                                      
+                                        newUser.save();
                                         myObj.success = true;
                                         myObj.userid = newUser.userid;
                                         mailOptions.to = newUser.email;
@@ -117,8 +120,9 @@ const addData = function (req, res) {
                                         res.send(myObj);
                                     }
                                 });
+
     
-                            }) ;
+                          
 
                            
                            

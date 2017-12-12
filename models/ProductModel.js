@@ -100,13 +100,20 @@ const getproductid = function(req, res){
             throw err;
         } 
         else{
-            productId = c+1;
-            newProduct = new Product({ productId:productId });
-            newProduct.save();
-            console.log(productId);
-            res.send({
-                productId : productId
-            })
+           
+            newProduct = new Product();
+            newProduct.save(function(err, product){
+                if(err) throw err;
+                else{
+                    product.productId = product._id;
+                    product.save();
+                    res.send({
+                        productId : product._id
+                    });
+                }
+            });
+            
+            
             
         }
     })
@@ -198,6 +205,7 @@ const productDescription = function(req, res){
         else{
             res.send({empty:false,product:current_product
             });
+            console.log("runniiiiiiiiiiiiiiii g"+ current_product);
         }
     })
 }

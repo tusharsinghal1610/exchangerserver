@@ -66,7 +66,7 @@ const addToCart = function (req, res) {
             res.send({ success: true });
         }
 
-        Product.ProductModel.findOne({productId:productId}, function(err, current_product){
+        Product.ProductModel.findOne({productId:req.query.productId}, function(err, current_product){
             var array = current_product.carts;
             array.push(current_cart.userId);
             current_product.carts = array;
