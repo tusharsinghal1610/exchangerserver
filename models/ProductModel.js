@@ -83,7 +83,7 @@ const uploadData = function(req, res){
                     type:req.body.type,
                     category: req.body.type                    
                 }
-               
+                console.log(current_product);
                 products.push(product);
                 user.myProducts = products;
                 user.save();
@@ -145,14 +145,17 @@ const editProduct = function(req, res){
 
     })
 }
+//wrong user id is being sent//
 const removeProduct = function(req, res){
     Product.remove({productId:req.query.productId, userid:req.query.userId},function(err, current_product){
         if(err) throw err;
         else{
-            var carts = current_product.carts;
-            User.UserModel.findOne({userid:current_product.userid},function(err,user){
+            
+            User.UserModel.findOne({userid:req.query.userId},function(err,user){
                var array = user.myProducts;
-               console.log("sudhhhhhhhhhhhhh"+user.myProducts);
+               console.log(array)
+              // console.log("udgy "+current_product.userid)
+              // console.log("Siusgfivbwrojv ebf " + user);
                for(var i=0;i<array.length;i++){
                    if(array[i].productId==req.query.productId){
                        array.splice(i, 1);
@@ -161,9 +164,10 @@ const removeProduct = function(req, res){
                }
                //console.log(user.myProducts);
             user.myProducts = array;
-             user.save()
+            user.save()
                 
             })
+            var carts = current_product.carts;
             if(carts!=undefined)
                 {
             for(var i = 0;i<carts.length;i++)
