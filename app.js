@@ -15,15 +15,16 @@ var UserApi = require('./routes/UserApi.js')
 app.use(BodyParser.urlencoded({ extended: true }));
 app.use(BodyParser.json());
 app.use(fileupload());
-var port = 8080;
+var port = 5000;
 
 app.use('/signup', SignupApi);
 app.use('/login', LoginApi);
 app.use('/product',ProductApi);
 app.use(express.static('public'));
 app.use('/fetch', FetchApi);
-app.use('/cart', CartApi)
-app.use('/user', UserApi)
+app.use('/cart', CartApi);
+app.use('/user', UserApi);
+
 var uri = 'mongodb://keshav:keshav@ds119355.mlab.com:19355/exchanger';
 mongoose.connect(uri, function (err) {
     if (err) { throw err; }
