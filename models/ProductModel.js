@@ -7,7 +7,7 @@ app.use(cors());
 User = require('../models/UserModel.js');
 Cart = require('../models/CartModel.js');
 var fs = require('fs');
-
+var Search= require('./searchArray.js');
 var Schema = mongoose.Schema;
 ProductSchema = new Schema({
     productName: {type:String},
@@ -28,7 +28,7 @@ ProductSchema = new Schema({
     img3:{type:String},
     img4:{type:String},
     count: {type:Number, default:0},
-    carts:[{type:Number}]
+    carts:[{type:String}]
 }); 
 const Product = mongoose.model('Product', ProductSchema);
 
@@ -97,18 +97,26 @@ const uploadData = function(req, res){
 
             }
             var file_path = './searchArray.js';
-            var new_text = String(','+ searchArray);
+           var search = JSON.stringify(searchArray)
+           
+            
+            var new_text = (','+ search);
             fs.readFile(file_path, function read(err, data) {
                 if (err) {
                     throw err;
                 }
                 var file_content = data.toString();
+                
+
                 var position = file_content.length-23;
+                file_content1 = file_content.substr(0, position);
+                file_content2 = file_content.substr(position)
+                text = file_content1 + new_text +file_content2;
                 console.log(position);
                 file_content = file_content.substring(position);
                 var file = fs.openSync(file_path,'r+');
-                var bufferedText = new Buffer(new_text+file_content);
-                fs.writeFileSync(file, bufferedText, 0, bufferedText.length, position);
+                //var bufferedText = new Buffer(new_text+file_content);
+                fs.writeFileSync(file, text);
                 fs.close(file);
             });
             res.send({success:true})
@@ -251,7 +259,9 @@ const buyNowDetails = function(req, res){
         }
     })
 }
-
+var searchengine = function(req, res){
+    res.send(Search);
+}
 
 module.exports = {
     ProductModel:Product,

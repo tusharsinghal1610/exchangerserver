@@ -104,7 +104,9 @@ const addData = function (req, res) {
                                         //console.log(doc);  
                                         console.log("User Created");
                                         newUser.userid = doc._id;
-                                      
+                                        newCart = new Cart.CartModel();
+                                        newCart.userId = doc._id;
+                                        newCart.save();
                                         newUser.save();
                                         myObj.success = true;
                                         myObj.userid = newUser.userid;

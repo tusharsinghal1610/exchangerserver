@@ -11,11 +11,12 @@ var LoginApi = require('./routes/LoginApi.js')
 var ProductApi = require('./routes/ProductUploadApi.js')
 var FetchApi = require('./routes/FetchProductApi.js')
 var CartApi = require('./routes/CartApi.js')
+var SearchApi = require('./routes/SearchApi.js')
 var UserApi = require('./routes/UserApi.js')
 app.use(BodyParser.urlencoded({ extended: true }));
 app.use(BodyParser.json());
 app.use(fileupload());
-var port = 5000;
+var port = 8080;
 server=app.listen(port);
 var io = require('socket.io').listen(server); 
 app.use('/signup', SignupApi);
@@ -25,6 +26,7 @@ app.use(express.static('public'));
 app.use('/fetch', FetchApi);
 app.use('/cart', CartApi);
 app.use('/user', UserApi);
+app.use('/search', SearchApi);
 
 var uri = 'mongodb://keshav:keshav@ds119355.mlab.com:19355/exchanger';
 mongoose.connect(uri, function (err) {
