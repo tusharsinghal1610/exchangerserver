@@ -11,7 +11,7 @@ User = require('../models/UserModel.js');
 app.get('/myProducts/',(req,res)=>{
     User.getMyProducts(req,res);
 });
-app.get('/changePassword/', (req, res)=>{
+app.post('/changePassword/', (req, res)=>{
     User.changePassword(req, res);
 });
 

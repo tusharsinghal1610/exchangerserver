@@ -109,7 +109,7 @@ const uploadData = function(req, res){
                 var file_content = data.toString();
                 
 
-                var position = file_content.length-102;
+                var position = file_content.length-103;
                 file_content1 = file_content.substr(0, position);
                 file_content2 = file_content.substr(position)
                 text = file_content1 + new_text +file_content2;
@@ -201,7 +201,7 @@ const removeProduct = function(req, res){
                        break;
                    }
                }
-               arr = Searchengine.sendArray();
+/*arr = Searchengine.sendArray();
                for(var i = 0;i<arr.length;i++)
                {
                    if(arr[i].productId == req.query.productId)
@@ -210,7 +210,7 @@ const removeProduct = function(req, res){
                    }}
 
                    var file_path = './searchArray.js';
-                   var search = JSON.stringify(arr)
+                   var search = JSON.stringify(arr);
                    
                     
                     var new_text = search;
@@ -230,12 +230,12 @@ const removeProduct = function(req, res){
                         console.log(text);
                         //console.log(position);
                         //file_content = file_content.substring(position);
-                        var file = fs.openSync(file_path,'r+');
+                        var file = fs.openSync(file_path,'w');
                         //var bufferedText = new Buffer(new_text+file_content);
-                        fs.writeFileSync(file, "");
+                        //fs.writeFileSync(file, "");
                         fs.writeFileSync(file, text);
                         fs.close(file);
-                    });
+                    });*/
                //console.log(user.myProducts);
             user.myProducts = array;
             user.save()
@@ -296,10 +296,15 @@ const buyNowDetails = function(req, res){
     })
 }
 var searchengine = function(req, res){
-    Searchengine.sendArray();
+  /*  Searchengine.sendArray();
     arr = Searchengine.sendArray();
     console.log(arr)
-    res.send({products:arr,empty:false});
+    res.send({products:arr,empty:false});*/
+    Product.find({}, function(err, products){
+        if(err) throw err;
+        else res.send({products:products, empty:false});
+        console.log("sending search array");
+    })
 }
 
 module.exports = {

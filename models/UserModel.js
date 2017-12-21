@@ -226,13 +226,15 @@ const getMyProducts = function(req, res){
     });
 }
 const changePassword = function(req, res){
-    User.findOne({userid:req.query.userId}, function(err, current_user){
-        bcrypt.compare(req.query.currentPassword, current_user.password, function(err, result) {
+    User.findOne({userid:req.body.userid}, function(err, current_user){
+        bcrypt.compare(req.body.currentPassword, current_user.password, function(err, result) {
             if(result==true)
             {
-                hash = bcrypt.hashSync(req.query.newPassword, salt);
+                hash = bcrypt.hashSync(req.body.newPassword, salt);
                 current_user.password=hash;
                 res.send({success:true});
+                current_user.save();
+                console.log("changed");
             }
             else{
                 res.send({success:false});
@@ -245,6 +247,7 @@ module.exports = {
     addData: addData,
     verify: verify,
     Login: Login,
-    getMyProducts:getMyProducts
+    getMyProducts:getMyProducts,
+    changePassword:changePassword
     
 }
