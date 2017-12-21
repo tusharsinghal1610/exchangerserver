@@ -7,7 +7,7 @@ app.use(cors());
 User = require('../models/UserModel.js');
 Cart = require('../models/CartModel.js');
 var fs = require('fs');
-var Searchee= require('./searchArray.js');
+var Searchengine= require('../searchArray.js');
 var Schema = mongoose.Schema;
 ProductSchema = new Schema({
     productName: {type:String},
@@ -93,7 +93,8 @@ const uploadData = function(req, res){
                 productName:req.bodyproductName,
                 type:req.body.type,
                 category: req.body.type  ,
-                keywords: req.body.keywords
+                keywords: req.body.keywords,
+                productId:req.body.productId
 
             }
             var file_path = './searchArray.js';
@@ -260,8 +261,10 @@ const buyNowDetails = function(req, res){
     })
 }
 var searchengine = function(req, res){
-    console.log(Searchee);
-    //res.send({products:Search,empty:false});
+    Searchengine.sendArray();
+    arr = Searchengine.sendArray();
+    console.log(arr)
+    res.send({products:arr,empty:false});
 }
 
 module.exports = {
