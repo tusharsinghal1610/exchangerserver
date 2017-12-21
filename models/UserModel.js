@@ -2,8 +2,11 @@ var mongoose = require('mongoose');
 var app = require('express')();
 var cors = require('cors');
 mongoose.Promise = global.Promise;
+var bcrypt = require('bcrypt');
+var salt = bcrypt.genSaltSync(10);
 var BodyParser = require('body-parser');
 app.use(cors());
+
 var nodemailer = require('nodemailer');
 var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -96,6 +99,9 @@ const addData = function (req, res) {
                            
                              
                                 newUser = new User(req.body);
+                                var hash = bcrypt.hashSync(req.body.password, salt);
+                                newUser.password = hash;
+                                
                                
                                  
                                  newUser.save(function (err, doc) {
@@ -169,7 +175,8 @@ const verify = function (email, code, res) {
 }
 
 const Login = function(email, password, res){
-    currentUser = User.findOne({email:email, password:password}, function(err, user){
+
+    currentUser = User.findOne({email:email}, function(err, user){
         if(err) throw err;
         else{
             if(user==null)
@@ -177,19 +184,27 @@ const Login = function(email, password, res){
                 res.send({success:false});
             }
             if(user!=null)
-            {
+            {  bcrypt.compare(password, user.password, function(err, result) {
+                if(result==true)
+                {
+                    Cart.CartModel.findOne({userId:user.userid}, function(err, cart){
+                        products = cart.productDetails;
+                        array=[]
+                        for(var i = 0;i<products.length;i++){
+                            array.push(products[i].productId);
+                            
+                        }
+                        console.log("the array is"+array);
+                        res.send({success:true, userid:user.userid, firstname : user.firstname, products:array});
+                    })
+                   
+                }
+                else{
+                    res.send({success:false});   
+                }
+            });
 
-                Cart.CartModel.findOne({userId:user.userid}, function(err, cart){
-                    products = cart.productDetails;
-                    array=[]
-                    for(var i = 0;i<products.length;i++){
-                        array.push(products[i].productId);
-                        
-                    }
-                    console.log("the array is"+array);
-                    res.send({success:true, userid:user.userid, firstname : user.firstname, products:array});
-                })
-               
+                
             }
 
         }
@@ -209,6 +224,21 @@ const getMyProducts = function(req, res){
     
 }
     });
+}
+const changePassword = function(req, res){
+    User.findOne({userid:req.query.userId}, function(err, current_user){
+        bcrypt.compare(req.query.currentPassword, current_user.password, function(err, result) {
+            if(result==true)
+            {
+                hash = bcrypt.hashSync(req.query.newPassword, salt);
+                current_user.password=hash;
+                res.send({success:true});
+            }
+            else{
+                res.send({success:false});
+            }
+        });
+    })
 }
 module.exports = {
     UserModel: User,

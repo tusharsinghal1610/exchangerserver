@@ -90,7 +90,7 @@ const uploadData = function(req, res){
                 
             });
             var searchArray = {
-                productName:req.bodyproductName,
+                productName:req.body.productName,
                 type:req.body.type,
                 category: req.body.type  ,
                 keywords: req.body.keywords,
@@ -109,7 +109,7 @@ const uploadData = function(req, res){
                 var file_content = data.toString();
                 
 
-                var position = file_content.length-27;
+                var position = file_content.length-102;
                 file_content1 = file_content.substr(0, position);
                 file_content2 = file_content.substr(position)
                 text = file_content1 + new_text +file_content2;
@@ -201,6 +201,41 @@ const removeProduct = function(req, res){
                        break;
                    }
                }
+               arr = Searchengine.sendArray();
+               for(var i = 0;i<arr.length;i++)
+               {
+                   if(arr[i].productId == req.query.productId)
+                   {
+                       arr.splice(i, 1);
+                   }}
+
+                   var file_path = './searchArray.js';
+                   var search = JSON.stringify(arr)
+                   
+                    
+                    var new_text = search;
+                    fs.readFile(file_path, function read(err, data) {
+                        if (err) {
+                            throw err;
+                        }
+                        var file_content = data.toString();
+                        
+        
+                        var position1 = 120;
+                        var position2 = file_content.length - 100;
+                        file_content1 = file_content.substr(0, position1);
+                        file_content2 = "const sendArray = function(){return array;console.log(array);};module.exports={sendArray:sendArray};"
+                        text = file_content1 + new_text+"\n"+file_content2;
+                        
+                        console.log(text);
+                        //console.log(position);
+                        //file_content = file_content.substring(position);
+                        var file = fs.openSync(file_path,'r+');
+                        //var bufferedText = new Buffer(new_text+file_content);
+                        fs.writeFileSync(file, "");
+                        fs.writeFileSync(file, text);
+                        fs.close(file);
+                    });
                //console.log(user.myProducts);
             user.myProducts = array;
             user.save()

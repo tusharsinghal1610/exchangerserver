@@ -1,17 +1,2 @@
-var mongoose = require('mongoose');
-var app = require('express')();
-var cors = require('cors');
-mongoose.Promise = global.Promise;
-var BodyParser = require('body-parser');
-app.use(cors());
-
-var fs = require('fs');
-
-//arr=["hello","hye"];
-array=[{"type":"electronics","category":"electronics","keywords":"jfgh dkjhg kfdjlgj fnnm bkn vm"},{"type":"electronics","category":"electronics","keywords":"jfgh dkjhg kfdjlgj fnnm bkn vm"},{"type":"electronics","category":"electronics","keywords":"jfgh dkjhg kfdjlgj fnnm bkn vm"},{"type":"electronics","category":"electronics","keywords":"gfdh ghgf jdhgk hfkjhjjh lfgjl"},{"type":"electronics","category":"electronics","keywords":"hgsd jbh vjcnb. vcbnc cvcc vmc ccjbkj "}];
-const sendArray = function(){
-    return array;
-    console.log(array);
-}
-
-module.exports={sendArray:sendArray};
+var app = require('express')();var cors = require('cors');var BodyParser = require('body-parser');app.use(cors());array=[{"type":"electronics","category":"electronics","keywords":"jfgh dkjhg kfdjlgj fnnm bkn vm"},{"type":"electronics","category":"electronics","keywords":"jfgh dkjhg kfdjlgj fnnm bkn vm"},{"type":"electronics","category":"electronics","keywords":"jfgh dkjhg kfdjlgj fnnm bkn vm"},{"type":"electronics","category":"electronics","keywords":"gfdh ghgf jdhgk hfkjhjjh lfgjl"},{"type":"electronics","category":"electronics","keywords":"hgsd jbh vjcnb. vcbnc cvcc vmc ccjbkj "},{"productName":"khzgf d","type":"electronics","category":"electronics","keywords":"HJDHDJFK GKLG GLHLGL LFLF F"},{"productName":"Fapperrr","type":"electronics","category":"electronics","keywords":"gdhdjdjh gdjfhg dkfhg kdlgj","productId":"5a3b78e2223462112859ce3e"},{"productName":"fap","type":"electronics","category":"electronics","keywords":"ajsfjd  dffkgdh ghkgh","productId":"5a3b79603598842c58fa2faf"}]
+const sendArray = function(){return array;console.log(array);};module.exports={sendArray:sendArray};
